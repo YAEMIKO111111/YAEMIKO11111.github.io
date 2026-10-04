@@ -1,5 +1,121 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><title>我的网站</title></head>
-<body><h1>网站建好了！</h1></body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的工程笔记</title>
+<style>
+  /* 全局深色主题与基础排版 */
+  body {
+    background-color: #2b2b2b; /* 深色背景 */
+    color: #e0e0e0;            /* 浅色文字 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0 20px;
+    line-height: 1.6;
+  }
+  a { color: #7ec8e3; text-decoration: underline; } /* 链接颜色与下划线 */
+  a:hover { color: #fff; }
+
+  /* 限制最大宽度，让内容居中且不过宽 */
+  .container { max-width: 800px; margin: 0 auto; padding: 20px 0; }
+
+  /* 顶部导航栏 (Flex 左右分布) */
+  header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0; border-bottom: 1px solid #444; margin-bottom: 40px;
+  }
+  header .logo { font-weight: bold; font-size: 1.2rem; color: #fff; text-decoration: none; }
+  header nav a { color: #ccc; text-decoration: none; margin-left: 15px; font-size: 1rem; }
+  header nav a:hover { color: #fff; text-decoration: underline; }
+
+  /* 正文大标题区 */
+  .intro h1 { font-size: 2.2rem; color: #fff; margin-bottom: 10px; }
+  .intro .sub-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; }
+  .intro p { color: #bbb; margin-top: 15px; }
+
+  /* 项目列表区 */
+  .work-header { display: flex; justify-content: space-between; align-items: baseline; margin: 40px 0 20px; }
+  .work-header h2 { font-size: 1.5rem; color: #fff; margin: 0; }
+  .project-list { border-top: 1px solid #555; }
+  .project-item {
+    display: flex; gap: 20px; padding: 15px 0;
+    border-bottom: 1px solid #444; /* 列表分割线 */
+  }
+  .project-left { width: 35%; flex-shrink: 0; }
+  .project-left a { font-weight: bold; font-size: 1.1rem; }
+  .project-left .tag { display: block; font-size: 0.75rem; color: #888; text-transform: uppercase; margin-top: 5px; }
+  .project-right { width: 65%; color: #ccc; font-size: 0.95rem; }
+
+  /* 手机端适配：列表变上下堆叠 */
+  @media (max-width: 600px) {
+    .project-item { flex-direction: column; gap: 5px; }
+    .project-left, .project-right { width: 100%; }
+    header { flex-direction: column; gap: 15px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- 导航栏 -->
+  <header>
+    <a href=" " class="logo">Your Name (Nickname)</a >
+    <nav>
+      <a href="#">Home</a >
+      <a href="#">Projects</a >
+      <a href="#">Writing</a >
+      <a href="resume.pdf">CV</a > <!-- 呼应你之前问的PDF -->
+      <a href="https://github.com/你的用户名">GitHub</a >
+    </nav>
+  </header>
+
+  <!-- 简介区 -->
+  <section class="intro">
+    <div class="sub-title">UNDERGRADUATE ENGINEERING NOTEBOOK</div>
+    <h1>Projects, experiments, and questions I am trying to understand.</h1>
+    <p>I study Microelectronics Science and Technology at Xi'an Jiaotong-Liverpool University. This site keeps project state, technical notes, and failed checks close to the work that produced them.</p >
+  </section>
+
+  <!-- 项目列表区 -->
+  <section>
+    <div class="work-header">
+      <h2>Selected work</h2>
+      <a href="#">View all projects →</a >
+    </div>
+    
+    <div class="project-list">
+      <!-- 项目 1 -->
+      <div class="project-item">
+        <div class="project-left">
+          <a href="#">code-with-pi</a >
+          <span class="tag">ACTIVE · EXPERIMENT</span>
+        </div>
+        <div class="project-right">
+          A C11 broker keeps original PTY/ConPTY shell alive so Pi and its user can observe or take over the same terminal through authenticated local IPC.
+        </div>
+      </div>
+      <!-- 项目 2 -->
+      <div class="project-item">
+        <div class="project-left">
+          <a href="#">ANSYS skill</a >
+          <span class="tag">EXPERIMENTAL</span>
+        </div>
+        <div class="project-right">
+          Checks which state an automated Mechanical workflow actually reached without treating file or result-object existence as physical validation.
+        </div>
+      </div>
+      <!-- 项目 3 -->
+      <div class="project-item">
+        <div class="project-left">
+          <a href="#">ForgeSpec-Studio</a >
+          <span class="tag">PROTOTYPE</span>
+        </div>
+        <div class="project-right">
+          Turns a loose engineering brief into typed intent, a reviewable AssemblySpec, and deterministic CadQuery source and geometry.
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
 </html>
