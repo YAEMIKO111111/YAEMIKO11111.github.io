@@ -1,116 +1,400 @@
-<title>我的工程笔记</title>
-<style>
-  /* 全局深色主题与基础排版 */
-  body {
-    background-color: #2b2b2b; /* 深色背景 */
-    color: #e0e0e0;            /* 浅色文字 */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 0 20px;
-    line-height: 1.6;
-  }
-  a { color: #7ec8e3; text-decoration: underline; } /* 链接颜色与下划线 */
-  a:hover { color: #fff; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Small ideas, personal projects, and engineering notes by YAEMIKO111111.">
+  <title>YAEMIKO111111 — Small Ideas & Engineering Notes</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #0b0d10;
+      --surface: #12151a;
+      --surface-hover: #171b21;
+      --text: #f3f5f7;
+      --muted: #9aa3ad;
+      --line: #2a3038;
+      --accent: #8fb7ff;
+      --accent-soft: rgba(143, 183, 255, 0.12);
+      --page-width: 1160px;
+    }
 
-  /* 限制最大宽度，让内容居中且不过宽 */
-  .container { max-width: 800px; margin: 0 auto; padding: 20px 0; }
+    * {
+      box-sizing: border-box;
+    }
 
-  /* 顶部导航栏 (Flex 左右分布) */
-  header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 0; border-bottom: 1px solid #444; margin-bottom: 40px;
-  }
-  header .logo { font-weight: bold; font-size: 1.2rem; color: #fff; text-decoration: none; }
-  header nav a { color: #ccc; text-decoration: none; margin-left: 15px; font-size: 1rem; }
-  header nav a:hover { color: #fff; text-decoration: underline; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  /* 正文大标题区 */
-  .intro h1 { font-size: 2.2rem; color: #fff; margin-bottom: 10px; }
-  .intro .sub-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; }
-  .intro p { color: #bbb; margin-top: 15px; }
+    body {
+      min-width: 320px;
+      margin: 0;
+      background:
+        radial-gradient(circle at 82% 8%, rgba(63, 99, 155, 0.16), transparent 31rem),
+        var(--background);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
 
-  /* 项目列表区 */
-  .work-header { display: flex; justify-content: space-between; align-items: baseline; margin: 40px 0 20px; }
-  .work-header h2 { font-size: 1.5rem; color: #fff; margin: 0; }
-  .project-list { border-top: 1px solid #555; }
-  .project-item {
-    display: flex; gap: 20px; padding: 15px 0;
-    border-bottom: 1px solid #444; /* 列表分割线 */
-  }
-  .project-left { width: 35%; flex-shrink: 0; }
-  .project-left a { font-weight: bold; font-size: 1.1rem; }
-  .project-left .tag { display: block; font-size: 0.75rem; color: #888; text-transform: uppercase; margin-top: 5px; }
-  .project-right { width: 65%; color: #ccc; font-size: 0.95rem; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-  /* 手机端适配：列表变上下堆叠 */
-  @media (max-width: 600px) {
-    .project-item { flex-direction: column; gap: 5px; }
-    .project-left, .project-right { width: 100%; }
-    header { flex-direction: column; gap: 15px; align-items: flex-start; }
-  }
-</style>
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 5px;
+      border-radius: 2px;
+    }
+
+    .page {
+      width: min(calc(100% - 48px), var(--page-width));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 84px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.83rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-mark {
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(143, 183, 255, 0.65);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .site-nav a {
+      transition: color 160ms ease;
+    }
+
+    .site-nav a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.5fr);
+      gap: clamp(48px, 8vw, 120px);
+      align-items: end;
+      min-height: 480px;
+      padding: 96px 0 72px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow,
+    .section-label,
+    .project-number,
+    .project-status {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent);
+      font-size: 0.76rem;
+    }
+
+    .hero-aside p {
+      max-width: 280px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-main h1 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(3rem, 7.2vw, 6.8rem);
+      font-weight: 570;
+      letter-spacing: -0.065em;
+      line-height: 0.96;
+    }
+
+    .hero-main p {
+      max-width: 650px;
+      margin: 34px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.7vw, 1.18rem);
+    }
+
+    .content-section {
+      padding: 88px 0;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 24px;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.75fr) minmax(0, 1.5fr);
+      gap: clamp(48px, 8vw, 120px);
+      margin-bottom: 42px;
+    }
+
+    .section-label {
+      margin: 4px 0 0;
+      color: var(--accent);
+      font-size: 0.76rem;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 560;
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+    }
+
+    .project-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .project {
+      display: grid;
+      grid-template-columns: 64px minmax(180px, 0.7fr) minmax(260px, 1.3fr) 32px;
+      gap: 24px;
+      align-items: start;
+      padding: 30px 4px;
+      border-bottom: 1px solid var(--line);
+      transition: background-color 160ms ease, padding 160ms ease;
+    }
+
+    .project:hover {
+      padding-right: 16px;
+      padding-left: 16px;
+      background: var(--surface-hover);
+    }
+
+    .project-number {
+      color: #69727d;
+      font-size: 0.76rem;
+    }
+
+    .project-title {
+      display: block;
+      margin: -4px 0 8px;
+      font-size: 1.25rem;
+      font-weight: 650;
+      letter-spacing: -0.025em;
+    }
+
+    .project-status {
+      color: var(--accent);
+      font-size: 0.68rem;
+    }
+
+    .project-description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .project-arrow {
+      color: var(--accent);
+      font-size: 1.1rem;
+      transition: transform 160ms ease;
+    }
+
+    .project:hover .project-arrow {
+      transform: translate(3px, -3px);
+    }
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 0 42px;
+      color: #747d87;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(calc(100% - 32px), var(--page-width));
+      }
+
+      .site-header {
+        align-items: flex-start;
+        min-height: 0;
+        padding: 22px 0;
+      }
+
+      .site-nav {
+        gap: 16px;
+        font-size: 0.82rem;
+      }
+
+      .hero,
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 34px;
+      }
+
+      .hero {
+        min-height: 0;
+        padding: 72px 0 58px;
+      }
+
+      .hero-aside {
+        order: 2;
+      }
+
+      .hero-main h1 {
+        font-size: clamp(3rem, 15vw, 5rem);
+      }
+
+      .content-section {
+        padding: 64px 0;
+      }
+
+      .project {
+        grid-template-columns: 42px 1fr 24px;
+        gap: 14px;
+      }
+
+      .project-copy {
+        grid-column: 2 / 3;
+      }
+
+      .project-description {
+        grid-column: 2 / 4;
+        margin-top: 4px;
+      }
+
+      .project-arrow {
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      .site-footer {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .site-header {
+        display: block;
+      }
+
+      .site-nav {
+        margin-top: 18px;
+      }
+
+      .site-nav a:first-child {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <!-- 导航栏 -->
-  <header>
-    <a href=" " class="logo">Your Name (Nickname)</a >
-    <nav>
-      <a href="#">Home</a >
-      <a href="#">Projects</a >
-      <a href="#">Writing</a >
-      <a href="resume.pdf">CV</a > <!-- 呼应你之前问的PDF -->
-      <a href="https://github.com/你的用户名">GitHub</a >
-    </nav>
-  </header>
+  <div class="page">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Go to homepage">
+        <span class="brand-mark" aria-hidden="true"></span>
+        YAEMIKO111111
+      </a>
 
-  <!-- 简介区 -->
-  <section class="intro">
-    <div class="sub-title">UNDERGRADUATE ENGINEERING NOTEBOOK</div>
-    <h1>Projects, experiments, and questions I am trying to understand.</h1>
-    <p>I study Microelectronics Science and Technology at Xi'an Jiaotong-Liverpool University. This site keeps project state, technical notes, and failed checks close to the work that produced them.</p >
-  </section>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#top">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="https://github.com/YAEMIKO111111" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </nav>
+    </header>
 
-  <!-- 项目列表区 -->
-  <section>
-    <div class="work-header">
-      <h2>Selected work</h2>
-      <a href="#">View all projects →</a >
-    </div>
-    
-    <div class="project-list">
-      <!-- 项目 1 -->
-      <div class="project-item">
-        <div class="project-left">
-          <a href="#">code-with-pi</a >
-          <span class="tag">ACTIVE · EXPERIMENT</span>
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-aside">
+          <p class="eyebrow">Undergraduate engineering notebook</p>
+          <p>I study Microelectronics Science and Technology at Xi'an Jiaotong-Liverpool University.</p>
         </div>
-        <div class="project-right">
-          A C11 broker keeps original PTY/ConPTY shell alive so Pi and its user can observe or take over the same terminal through authenticated local IPC.
+
+        <div class="hero-main">
+          <h1 id="hero-title">Small ideas, carefully kept.</h1>
+          <p>
+            A personal space for sharing small ideas, ongoing experiments,
+            personal projects, and the notes that grow around them.
+          </p>
         </div>
-      </div>
-      <!-- 项目 2 -->
-      <div class="project-item">
-        <div class="project-left">
-          <a href="#">ANSYS skill</a >
-          <span class="tag">EXPERIMENTAL</span>
+      </section>
+
+      <section class="content-section" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading">
+          <p class="section-label">01 / Projects</p>
+          <h2 id="projects-title">Selected work</h2>
         </div>
-        <div class="project-right">
-          Checks which state an automated Mechanical workflow actually reached without treating file or result-object existence as physical validation.
+
+        <div class="project-list">
+          <a class="project" href="./伴学社资料排版_skill.zip">
+            <span class="project-number">001</span>
+            <span class="project-copy">
+              <span class="project-title">PTC Typesetting Skill</span>
+              <span class="project-status">Skill · ZIP</span>
+            </span>
+            <p class="project-description">
+              A reusable skill package for typesetting PTC learning materials.
+            </p>
+            <span class="project-arrow" aria-hidden="true">↓</span>
+          </a>
+
+          <a class="project" href="./微电子学习笔记-术语详解与工具指南.pdf" target="_blank">
+            <span class="project-number">002</span>
+            <span class="project-copy">
+              <span class="project-title">Microelectronics Study Notes</span>
+              <span class="project-status">Study Note · PDF</span>
+            </span>
+            <p class="project-description">
+              A shared note covering microelectronics terminology and practical tools.
+            </p>
+            <span class="project-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
-      </div>
-      <!-- 项目 3 -->
-      <div class="project-item">
-        <div class="project-left">
-          <a href="#">ForgeSpec-Studio</a >
-          <span class="tag">PROTOTYPE</span>
-        </div>
-        <div class="project-right">
-          Turns a loose engineering brief into typed intent, a reviewable AssemblySpec, and deterministic CadQuery source and geometry.
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>YAEMIKO111111</span>
+      <span>Small ideas · Personal projects · Shared notes</span>
+    </footer>
+  </div>
 </body>
 </html>
